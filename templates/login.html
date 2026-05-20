@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width: 420px; margin: 40px auto;">
+    <div style="background: rgba(255,255,255,0.97); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(74,44,10,0.35);">
+
+        <div style="background: linear-gradient(135deg, #1D9E75 0%, #0F6E56 50%, #6B3D12 100%); padding: 36px 32px; text-align: center; position: relative;">
+            <div style="font-size: 52px; margin-bottom: 10px;">🌱</div>
+            <h1 style="color: white; font-size: 26px; font-weight: 700; margin-bottom: 4px;">AgroSmart</h1>
+            <p style="color: rgba(255,255,255,0.75); font-size: 13px;">Plataforma de apoyo agricola</p>
+        </div>
+
+        <div style="padding: 32px;">
+            <form method="POST">
+                <div class="form-group">
+                    <label>Correo electronico</label>
+                    <input type="email" name="correo" placeholder="agricultor@ejemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Contrasena</label>
+                    <input type="password" name="contrasena" placeholder="••••••••" required>
+                </div>
+                <button type="submit" class="btn btn-green" style="width: 100%; padding: 13px; font-size: 15px; margin-bottom: 12px;">
+                    Iniciar sesion
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-bottom: 10px;">
+                <a href="/olvide-contrasena" style="font-size: 13px; color: #1D9E75; text-decoration: none;">¿Olvidaste tu contraseña?</a>
+            </div>
+
+            <a href="/registro" class="btn btn-outline" style="width: 100%; display: block; text-align: center; padding: 12px;">
+                Crear cuenta nueva
+            </a>
+
+            <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0e8e0; text-align: center;">
+                <p style="font-size: 11px; color: #bbb;">Universidad ECCI &mdash; Desarrollo Informatico 2026</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

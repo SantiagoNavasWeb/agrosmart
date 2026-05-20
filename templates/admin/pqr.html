@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero-banner">
+    <h2>Gestion de PQR 📋</h2>
+    <p>Revisa y gestiona todas las solicitudes enviadas por los agricultores.</p>
+</div>
+
+<div class="card">
+    {% if pqrs %}
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Usuario</th>
+                <th>Tipo</th>
+                <th>Asunto</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in pqrs %}
+            <tr>
+                <td>{{ p.fecha.strftime('%d/%m/%Y') }}</td>
+                <td style="font-weight: 600;">{{ p.usuario.nombre }}</td>
+                <td>{{ p.tipo }}</td>
+                <td>{{ p.asunto }}</td>
+                <td>
+                    {% if p.estado == 'pendiente' %}
+                        <span class="badge-alto">Pendiente</span>
+                    {% elif p.estado == 'en proceso' %}
+                        <span class="badge-medio">En proceso</span>
+                    {% else %}
+                        <span class="badge-bajo">Resuelto</span>
+                    {% endif %}
+                </td>
+                <td style="display: flex; gap: 6px;">
+                    <a href="/admin/pqr/estado/{{ p.id }}/en proceso" class="btn btn-brown" style="padding: 6px 10px; font-size: 11px;">En proceso</a>
+                    <a href="/admin/pqr/estado/{{ p.id }}/resuelto"   class="btn btn-green" style="padding: 6px 10px; font-size: 11px;">Resuelto</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 60px 20px; color: #aaa;">
+        <div style="font-size: 60px; margin-bottom: 16px;">📋</div>
+        <p style="font-size: 16px; font-weight: 600; color: #888;">No hay PQR registradas aun</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

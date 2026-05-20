@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero-banner">
+    <h2>Consultar Clima y Cultivos 🌤</h2>
+    <p>Selecciona tu region y mes para obtener recomendaciones personalizadas.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Datos de entrada</div>
+    <form method="POST">
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Region</label>
+                <select name="region" required>
+                    <option value="">Selecciona region</option>
+                    {% for r in regiones %}
+                    <option value="{{ r }}" {% if resultado and resultado.region == r %}selected{% endif %}>{{ r }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Mes</label>
+                <select name="mes" required>
+                    <option value="">Selecciona mes</option>
+                    {% for m in meses %}
+                    <option value="{{ m }}" {% if resultado and resultado.mes == m %}selected{% endif %}>{{ m }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <p style="font-size: 12px; color: #999; margin-bottom: 18px;">
+            El sistema cargara automaticamente los datos climaticos simulados segun tu seleccion.
+        </p>
+        <button type="submit" class="btn btn-green" style="padding: 13px 28px;">
+            Analizar condiciones
+        </button>
+    </form>
+</div>
+
+{% if resultado %}
+<div class="card">
+    <div class="card-title">Resultado del analisis</div>
+
+    <div class="grid-3" style="margin-bottom: 24px;">
+        <div class="stat-card brown">
+            <div class="label">Temperatura</div>
+            <div class="value">{{ resultado.temperatura }}°C</div>
+        </div>
+        <div class="stat-card blue">
+            <div class="label">Nivel de lluvia</div>
+            <div class="value">{{ resultado.lluvia | capitalize }}</div>
+        </div>
+        <div class="stat-card green">
+            <div class="label">Temporada</div>
+            <div class="value" style="font-size: 15px; margin-top: 4px;">{{ resultado.temporada | capitalize }}</div>
+        </div>
+    </div>
+
+    <p style="font-size: 13px; font-weight: 600; color: #4A2C0A; margin-bottom: 14px; text-transform: uppercase; letter-spacing: 0.5px;">
+        Cultivos recomendados
+    </p>
+
+    {% for rec in resultado.recomendaciones %}
+    <div class="cultivo-card {{ rec.riesgo }}">
+        <div>
+            <div class="cultivo-nombre">{{ rec.cultivo }}</div>
+            <div class="cultivo-desc">{{ rec.descripcion }}</div>
+        </div>
+        <span class="badge-{{ rec.riesgo }}">RIESGO {{ rec.riesgo | upper }}</span>
+    </div>
+    {% endfor %}
+
+    <p style="font-size: 12px; color: #aaa; margin-top: 14px;">
+        Consulta guardada en tu historial automaticamente.
+    </p>
+</div>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero-banner">
+    <h2>Peticiones, Quejas y Reclamos 📝</h2>
+    <p>Envianos tu solicitud y te responderemos lo antes posible.</p>
+</div>
+
+<div class="card">
+    <div class="card-title">Nueva PQR</div>
+    <form method="POST">
+        <div class="form-group">
+            <label>Tipo</label>
+            <select name="tipo" required>
+                <option value="">Selecciona el tipo</option>
+                <option value="Peticion">Peticion</option>
+                <option value="Queja">Queja</option>
+                <option value="Reclamo">Reclamo</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label>Asunto</label>
+            <input type="text" name="asunto" placeholder="Resume tu solicitud" required>
+        </div>
+        <div class="form-group">
+            <label>Descripcion</label>
+            <textarea name="descripcion" rows="4" placeholder="Describe tu solicitud con detalle..." required></textarea>
+        </div>
+        <button type="submit" class="btn btn-green" style="padding: 12px 28px;">
+            Enviar PQR
+        </button>
+    </form>
+</div>
+
+{% if mis_pqrs %}
+<div class="card">
+    <div class="card-title">Mis PQR enviadas</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Tipo</th>
+                <th>Asunto</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for p in mis_pqrs %}
+            <tr>
+                <td>{{ p.fecha.strftime('%d/%m/%Y') }}</td>
+                <td>{{ p.tipo }}</td>
+                <td>{{ p.asunto }}</td>
+                <td>
+                    {% if p.estado == 'pendiente' %}
+                        <span class="badge-alto">Pendiente</span>
+                    {% elif p.estado == 'en proceso' %}
+                        <span class="badge-medio">En proceso</span>
+                    {% else %}
+                        <span class="badge-bajo">Resuelto</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% endblock %}

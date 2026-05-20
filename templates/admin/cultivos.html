@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero-banner">
+    <h2>Gestion de Cultivos 🌾</h2>
+    <p>Agrega, edita o elimina cultivos disponibles en el sistema.</p>
+</div>
+
+<div class="card" style="margin-bottom: 22px;">
+    <div class="card-title">Agregar nuevo cultivo</div>
+    <form method="POST">
+        <div class="grid-2">
+            <div class="form-group">
+                <label>Nombre del cultivo</label>
+                <input type="text" name="nombre" placeholder="Ej: Papa" required>
+            </div>
+            <div class="form-group">
+                <label>Lluvia ideal</label>
+                <select name="lluvia">
+                    <option value="baja">Baja</option>
+                    <option value="media">Media</option>
+                    <option value="alta">Alta</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Temperatura minima (C)</label>
+                <input type="number" name="temp_min" placeholder="10">
+            </div>
+            <div class="form-group">
+                <label>Temperatura maxima (C)</label>
+                <input type="number" name="temp_max" placeholder="25">
+            </div>
+            <div class="form-group">
+                <label>Temporada ideal</label>
+                <select name="temporada">
+                    <option value="lluviosa">Lluviosa</option>
+                    <option value="seca">Seca</option>
+                    <option value="transicion">Transicion</option>
+                    <option value="todo el anio">Todo el anio</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Descripcion</label>
+            <textarea name="descripcion" rows="2" placeholder="Descripcion del cultivo..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-green" style="padding: 12px 28px;">
+            Agregar cultivo
+        </button>
+    </form>
+</div>
+
+<div class="card">
+    <div class="card-title">Cultivos registrados</div>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Temp. min</th>
+                <th>Temp. max</th>
+                <th>Lluvia ideal</th>
+                <th>Temporada</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in cultivos %}
+            <tr>
+                <td style="font-weight: 600; color: #1D9E75;">{{ c.nombre }}</td>
+                <td>{{ c.temp_min }}°C</td>
+                <td>{{ c.temp_max }}°C</td>
+                <td>{{ c.lluvia_ideal | capitalize }}</td>
+                <td>{{ c.temporada_ideal | capitalize }}</td>
+                <td>
+                    <a href="/admin/cultivos/eliminar/{{ c.id }}" class="btn btn-red" style="padding: 6px 14px; font-size: 12px;">
+                        Eliminar
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

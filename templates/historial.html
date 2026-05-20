@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero-banner">
+    <h2>Historial de consultas 📋</h2>
+    <p>Revisa todas las consultas que has realizado anteriormente.</p>
+</div>
+
+<div class="card">
+    {% if consultas %}
+    <table>
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Region</th>
+                <th>Mes</th>
+                <th>Temperatura</th>
+                <th>Lluvia</th>
+                <th>Recomendacion</th>
+                <th>Riesgo</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for c in consultas %}
+            <tr>
+                <td>{{ c.fecha.strftime('%d/%m/%Y') }}</td>
+                <td>{{ c.region }}</td>
+                <td>{{ c.mes }}</td>
+                <td>{{ c.temperatura }}°C</td>
+                <td>{{ c.nivel_lluvia | capitalize }}</td>
+                <td>{{ c.recomendacion }}</td>
+                <td><span class="badge-{{ c.nivel_riesgo }}">{{ c.nivel_riesgo | upper }}</span></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 60px 20px; color: #aaa;">
+        <div style="font-size: 60px; margin-bottom: 16px;">📋</div>
+        <p style="font-size: 16px; font-weight: 600; margin-bottom: 8px; color: #888;">No tienes consultas aun</p>
+        <p style="font-size: 13px; margin-bottom: 24px;">Realiza tu primera consulta climatica para ver los resultados aqui.</p>
+        <a href="/consulta" class="btn btn-green">Hacer primera consulta</a>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

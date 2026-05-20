@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div style="max-width: 440px; margin: 40px auto;">
+    <div style="background: rgba(255,255,255,0.97); border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(74,44,10,0.35);">
+
+        <div style="background: linear-gradient(135deg, #1D9E75 0%, #0F6E56 50%, #6B3D12 100%); padding: 36px 32px; text-align: center;">
+            <div style="font-size: 52px; margin-bottom: 10px;">🔒</div>
+            <h1 style="color: white; font-size: 24px; font-weight: 700; margin-bottom: 4px;">Nueva contraseña</h1>
+            <p style="color: rgba(255,255,255,0.75); font-size: 13px;">Identidad verificada correctamente</p>
+        </div>
+
+        <div style="padding: 32px;">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endwith %}
+
+            <div class="alert alert-success" style="margin-bottom: 20px;">
+                ✔ Identidad verificada. Ahora puedes crear una nueva contraseña.
+            </div>
+
+            <form method="POST" action="/resetear-contrasena">
+                <input type="hidden" name="correo" value="{{ correo }}">
+                <div class="form-group">
+                    <label>Nueva contraseña</label>
+                    <input type="password" name="contrasena" id="nueva" placeholder="Mínimo 4 caracteres" required minlength="4">
+                </div>
+                <div class="form-group">
+                    <label>Confirmar contraseña</label>
+                    <input type="password" name="confirmar" id="confirmar" placeholder="Repite la contraseña" required minlength="4"
+                        oninput="verificar()">
+                    <small id="msg" style="font-size: 12px;"></small>
+                </div>
+                <button type="submit" class="btn btn-green" style="width: 100%; padding: 13px; font-size: 15px;">
+                    Actualizar contraseña
+                </button>
+            </form>
+
+            <div style="margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0e8e0; text-align: center;">
+                <p style="font-size: 11px; color: #bbb;">Universidad ECCI — Desarrollo Informatico 2026</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function verificar() {
+    const nueva = document.getElementById('nueva').value;
+    const conf  = document.getElementById('confirmar').value;
+    const msg   = document.getElementById('msg');
+    if (conf === nueva) {
+        msg.textContent = '✔ Las contraseñas coinciden';
+        msg.style.color = '#1D9E75';
+    } else {
+        msg.textContent = '✖ Las contraseñas no coinciden';
+        msg.style.color = '#e74c3c';
+    }
+}
+</script>
+
+{% endblock %}

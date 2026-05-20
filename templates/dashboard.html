@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero-banner">
+    <h2>Bienvenido, {{ usuario.nombre }} 👋</h2>
+    <p>Consulta el clima de tu region y descubre que sembrar este mes.</p>
+</div>
+
+<div class="grid-3" style="margin-bottom: 22px;">
+    <div class="stat-card green">
+        <div class="label">Region activa</div>
+        <div class="value">{{ usuario.region or 'Sin region' }}</div>
+    </div>
+    <div class="stat-card brown">
+        <div class="label">Rol en el sistema</div>
+        <div class="value">{{ usuario.rol | capitalize }}</div>
+    </div>
+    <div class="stat-card blue">
+        <div class="label">Ultima consulta</div>
+        <div class="value" style="font-size: 14px; margin-top: 4px;">
+            {% if ultima_consulta %}
+                {{ ultima_consulta.mes }} &mdash; {{ ultima_consulta.region }}
+            {% else %}
+                Sin consultas aun
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% if ultima_consulta %}
+<div class="card">
+    <div class="card-title">Ultima recomendacion generada</div>
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <p style="font-size: 17px; color: #1D9E75; font-weight: 700; margin-bottom: 4px;">
+                {{ ultima_consulta.recomendacion }}
+            </p>
+            <p style="font-size: 13px; color: #888;">
+                {{ ultima_consulta.mes }} &mdash; {{ ultima_consulta.region }}
+            </p>
+        </div>
+        <span class="badge-{{ ultima_consulta.nivel_riesgo }}">
+            RIESGO {{ ultima_consulta.nivel_riesgo | upper }}
+        </span>
+    </div>
+</div>
+{% endif %}
+
+<div class="card">
+    <div class="card-title">Acciones rapidas</div>
+    <div class="grid-2">
+        <a href="/consulta" class="btn btn-green" style="text-align: center; padding: 18px; font-size: 15px;">
+            🌤 Nueva consulta climatica
+        </a>
+        <a href="/historial" class="btn btn-brown" style="text-align: center; padding: 18px; font-size: 15px;">
+            📋 Ver historial completo
+        </a>
+    </div>
+</div>
+
+{% endblock %}

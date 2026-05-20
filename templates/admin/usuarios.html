@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="hero-banner">
+    <h2>Gestion de Usuarios 👥</h2>
+    <p>Administra las cuentas registradas en el sistema.</p>
+</div>
+
+<div class="card">
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Correo</th>
+                <th>Region</th>
+                <th>Rol</th>
+                <th>Estado</th>
+                <th>Accion</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for u in usuarios %}
+            <tr>
+                <td style="font-weight: 600;">{{ u.nombre }}</td>
+                <td>{{ u.correo }}</td>
+                <td>{{ u.region or '-' }}</td>
+                <td>{{ u.rol | capitalize }}</td>
+                <td>
+                    {% if u.activo %}
+                        <span class="badge-bajo">Activo</span>
+                    {% else %}
+                        <span class="badge-alto">Inactivo</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="/admin/usuarios/toggle/{{ u.id }}"
+                       class="btn {% if u.activo %}btn-red{% else %}btn-green{% endif %}"
+                       style="padding: 6px 14px; font-size: 12px;">
+                        {% if u.activo %}Desactivar{% else %}Activar{% endif %}
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
